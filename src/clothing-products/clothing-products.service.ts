@@ -7,6 +7,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 export class ClothingProductsService {
   constructor(private readonly httpService: HttpService) {}
 
+  // Get All Products
   async getAllProducts() {
     try {
       const response = await firstValueFrom(
@@ -18,6 +19,19 @@ export class ClothingProductsService {
     }
   }
 
+  // Get single Product
+  async getAProduct(productId: string) {
+    try {
+      const response = await firstValueFrom(
+        this.httpService.get(`https://fakestoreapi.com/products/${productId}`),
+      );
+      return response.data;
+    } catch (error) {
+      throw new BadRequestException();
+    }
+  }
+
+  // Create a New Product
   async createAProduct(createProductDto: CreateProductDto) {
     // console.log(createProductDto);
 
