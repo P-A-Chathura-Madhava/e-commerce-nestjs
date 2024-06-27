@@ -60,4 +60,19 @@ export class ClothingProductsService {
       throw new BadRequestException();
     }
   }
+
+  // Delete a Product
+  async DeleteAProduct(productId: string) {
+    // console.log(id);
+    // console.log(updateProductDto);
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.delete(`https://fakestoreapi.com/products/${productId}`),
+      );
+      return response.data;
+    } catch (error) {
+      throw new BadRequestException();
+    }
+  }
 }
