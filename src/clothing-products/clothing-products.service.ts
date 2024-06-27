@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { CreateProductDto } from './dto/create-product.dto';
+import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ClothingProductsService {
@@ -38,6 +39,21 @@ export class ClothingProductsService {
     try {
       const response = await firstValueFrom(
         this.httpService.post('https://fakestoreapi.com/products', createProductDto),
+      );
+      return response.data;
+    } catch (error) {
+      throw new BadRequestException();
+    }
+  }
+
+  // Update a Product
+  async UpdateAProduct(productId: string, updateProductDto: UpdateProductDto) {
+    // console.log(id);
+    // console.log(updateProductDto);
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService.put(`https://fakestoreapi.com/products/${productId}`, updateProductDto),
       );
       return response.data;
     } catch (error) {
