@@ -20,4 +20,8 @@ export class OurProductsService {
     async getAllProducts() {
         return await this.productRepository.find()
     }
+
+    async getAProduct(id: string) {
+        return await this.productRepository.findOne({where: {id}})
+    }
 }
