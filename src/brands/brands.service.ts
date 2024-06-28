@@ -20,4 +20,8 @@ export class BrandsService {
     async getAllBrands() {
         return await this.brandRepository.find()
     }
+
+    async getABrand(id: number) {
+        return await this.brandRepository.findOne({where: {id}})
+    }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { BrandsService } from './brands.service';
 import { CreateBrandDto } from './dto/create-brand.dto';
 
@@ -11,6 +11,11 @@ export class BrandsController {
     @Get()
     async getAllBrands() {
         return this.brandsService.getAllBrands();
+    }
+
+    @Get(':id')
+    async getABrand(@Param('id') id: number) {
+        return this.brandsService.getABrand(id);
     }
 
     @Post()
