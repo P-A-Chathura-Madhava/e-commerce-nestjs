@@ -33,5 +33,13 @@ export class OurProductsService {
         }
         Object.assign(product, updateOurProductDto);        
         return await this.productRepository.save(product);
-      }
+    }
+
+    async deleteAProduct(id: number) {
+        const product = await this.getAProduct(id);
+        if (!product) {
+          throw new NotFoundException();
+        }    
+        return await this.productRepository.remove(product);
+    }
 }
