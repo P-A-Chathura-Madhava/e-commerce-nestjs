@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { OurProductsService } from './our-products.service';
 import { CreateOurProductDto } from './dto/create-our-product.dto';
+import { UpdateOurProductDto } from './dto/update-our-product.dto';
 
 @Controller('our-products')
 export class OurProductsController {
@@ -14,12 +15,17 @@ export class OurProductsController {
     }
 
     @Get(':id')
-    async getAProduct(@Param('id') id: string) {
+    async getAProduct(@Param('id') id: number) {
         return this.ourProductsService.getAProduct(id);
     }
 
     @Post()
     async create(@Body() createOurProductDto: CreateOurProductDto) {
         return this.ourProductsService.create(createOurProductDto);
+    }
+
+    @Patch(':id')
+    async update(@Param('id') id: string, @Body() updateOurProductDto: UpdateOurProductDto) {
+        return this.ourProductsService.updateAProduct(+id, updateOurProductDto);
     }
 }
