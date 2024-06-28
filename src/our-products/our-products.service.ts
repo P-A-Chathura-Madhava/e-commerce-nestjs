@@ -16,4 +16,8 @@ export class OurProductsService {
         const product = this.productRepository.create(createOurProductDto);
         return await this.productRepository.save(product);      
     }
+
+    async getAllProducts() {
+        return await this.productRepository.find()
+    }
 }
