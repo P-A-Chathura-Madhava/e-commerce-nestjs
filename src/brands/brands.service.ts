@@ -16,4 +16,8 @@ export class BrandsService {
         const brand = this.brandRepository.create(createBrandDto);
         return await this.brandRepository.save(brand);      
     }
+
+    async getAllBrands() {
+        return await this.brandRepository.find()
+    }
 }
