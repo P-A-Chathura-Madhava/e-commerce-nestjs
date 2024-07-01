@@ -14,6 +14,7 @@ import { join } from 'path';
 import { BrandsModule } from './brands/brands.module';
 import { ColorsModule } from './colors/colors.module';
 import { BlogCategoryModule } from './blog-category/blog-category.module';
+import { CouponsModule } from './coupons/coupons.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { BlogCategoryModule } from './blog-category/blog-category.module';
     BrandsModule,
     ColorsModule,
     BlogCategoryModule,
+    CouponsModule,
   ],
   controllers: [AppController],
   providers: [
