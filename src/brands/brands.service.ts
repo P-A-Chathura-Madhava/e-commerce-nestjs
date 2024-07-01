@@ -34,4 +34,12 @@ export class BrandsService {
     async getABrand(id: number) {
         return await this.brandRepository.findOne({where: {id}})
     }
+
+    async deleteABrand(id: number) {
+        const brand = await this.getABrand(id);
+        if (!brand) {
+          throw new NotFoundException();
+        }    
+        return await this.brandRepository.remove(brand);
+    }
 }

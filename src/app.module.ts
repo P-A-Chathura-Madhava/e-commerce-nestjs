@@ -12,6 +12,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { BrandsModule } from './brands/brands.module';
+import { ColorsModule } from './colors/colors.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { BrandsModule } from './brands/brands.module';
     ClothingProductsModule,
     OurProductsModule,
     BrandsModule,
+    ColorsModule,
   ],
   controllers: [AppController],
   providers: [
