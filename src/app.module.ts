@@ -13,6 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { BrandsModule } from './brands/brands.module';
 import { ColorsModule } from './colors/colors.module';
+import { BlogCategoryModule } from './blog-category/blog-category.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ColorsModule } from './colors/colors.module';
     OurProductsModule,
     BrandsModule,
     ColorsModule,
+    BlogCategoryModule,
   ],
   controllers: [AppController],
   providers: [
