@@ -15,6 +15,7 @@ import { BrandsModule } from './brands/brands.module';
 import { ColorsModule } from './colors/colors.module';
 import { BlogCategoryModule } from './blog-category/blog-category.module';
 import { CouponsModule } from './coupons/coupons.module';
+import { EnquiriesModule } from './enquiries/enquiries.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { CouponsModule } from './coupons/coupons.module';
     ColorsModule,
     BlogCategoryModule,
     CouponsModule,
+    EnquiriesModule,
   ],
   controllers: [AppController],
   providers: [
