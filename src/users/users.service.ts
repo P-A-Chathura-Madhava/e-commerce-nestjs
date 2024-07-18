@@ -74,4 +74,12 @@ async updateAUser(username: string, updateUserDto: UpdateUserDto) {
   return await this.usersRepository.save(user);
 }
 
+async delete(username: string) {
+  const user = await this.findOne(username);
+  if (!user) {
+    throw new NotFoundException();
+  }    
+  return await this.usersRepository.remove(user);
+}
+
 }
