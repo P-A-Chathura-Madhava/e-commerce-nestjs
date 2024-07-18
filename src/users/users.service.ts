@@ -30,7 +30,7 @@ export class UsersService {
   //   },
   // ];
 
-  async findOne(username: string): Promise<User | undefined> {
+  // async findOne(username: string): Promise<User | undefined> {
     // const users = [
     //   {
     //     id: 1,
@@ -47,8 +47,8 @@ export class UsersService {
     // ];
 
     // return users.find(user => user.username === username);
-    return null;
-  }
+    // return null;
+  // }
 
   async create(createUserDto: CreateUserDto) {
     // console.log(createUserDto);
@@ -58,6 +58,10 @@ export class UsersService {
 
   async findAll() {
     return await this.usersRepository.find()
+}
+
+async findOne(username: string) {
+  return await this.usersRepository.findOne({where: {username}})
 }
 
 }
