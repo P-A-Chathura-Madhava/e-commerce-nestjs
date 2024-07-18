@@ -1,3 +1,6 @@
+import { IsString } from 'class-validator';
+
 export class CreateColorDto {
-    title: string;
+  @IsString()
+  title: string;
 }
