@@ -1,8 +1,21 @@
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
+
 export class CreateBlogDto {
-    title: string;
-    description: string;
-    category: string;
-    numViews: number;
-    isLiked: boolean;
-    isDisliked: boolean;
+  @IsString()
+  title: string;
+
+  @IsString()
+  description: string;
+
+  @IsString()
+  category: string;
+
+  @IsNumber()
+  numViews: number;
+
+  @IsBoolean()
+  isLiked: boolean;
+
+  @IsBoolean()
+  isDisliked: boolean;
 }
