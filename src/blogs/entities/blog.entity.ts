@@ -1,4 +1,3 @@
-import { User } from "src/users/users.service";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({name: 'blogs'})
