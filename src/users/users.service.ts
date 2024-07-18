@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Role } from 'src/enums/role.enum';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 // This should be a real class/interface representing a user entity
 // export type User = any;
@@ -62,6 +63,15 @@ export class UsersService {
 
 async findOne(username: string) {
   return await this.usersRepository.findOne({where: {username}})
+}
+
+async updateAUser(username: string, updateUserDto: UpdateUserDto) {
+  const user = await this.findOne(username);
+  if (!user) {
+    throw new NotFoundException();
+  }
+  Object.assign(user, updateUserDto);        
+  return await this.usersRepository.save(user);
 }
 
 }
