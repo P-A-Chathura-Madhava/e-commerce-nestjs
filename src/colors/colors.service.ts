@@ -21,9 +21,8 @@ export class ColorsService {
         const color = await this.getAColor(id);
         if (!color) {
           throw new NotFoundException();
-        }
-        Object.assign(color, updateColorDto);        
-        return await this.colorRepository.save(color);
+        }  
+        return await this.colorRepository.update(color, updateColorDto);
     }
 
     async getAllColors() {

@@ -30,9 +30,8 @@ export class OurProductsService {
         const product = await this.getAProduct(id);
         if (!product) {
           throw new NotFoundException();
-        }
-        Object.assign(product, updateOurProductDto);        
-        return await this.productRepository.save(product);
+        }       
+        return await this.productRepository.update(product, updateOurProductDto);
     }
 
     async deleteAProduct(id: number) {

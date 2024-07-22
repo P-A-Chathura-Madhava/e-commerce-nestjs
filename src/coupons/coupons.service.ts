@@ -21,9 +21,8 @@ export class CouponsService {
         const coupon = await this.getACoupon(id);
         if (!coupon) {
           throw new NotFoundException();
-        }
-        Object.assign(coupon, updateCouponDto);        
-        return await this.couponRepository.save(coupon);
+        }        
+        return await this.couponRepository.update(coupon, updateCouponDto);
     }
 
     async getAllCoupons() {

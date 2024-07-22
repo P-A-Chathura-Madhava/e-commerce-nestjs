@@ -4,6 +4,8 @@ import { firstValueFrom } from 'rxjs';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
+const url = 'https://fakestoreapi.com/products';
+
 @Injectable()
 export class ClothingProductsService {
   constructor(private readonly httpService: HttpService) {}
@@ -12,7 +14,7 @@ export class ClothingProductsService {
   async getAllProducts() {
     try {
       const response = await firstValueFrom(
-        this.httpService.get('https://fakestoreapi.com/products'),
+        this.httpService.get(url),
       );
       return response.data;
     } catch (error) {
@@ -24,7 +26,7 @@ export class ClothingProductsService {
   async getAProduct(productId: string) {
     try {
       const response = await firstValueFrom(
-        this.httpService.get(`https://fakestoreapi.com/products/${productId}`),
+        this.httpService.get(`${url}/${productId}`),
       );
       return response.data;
     } catch (error) {
@@ -38,7 +40,7 @@ export class ClothingProductsService {
 
     try {
       const response = await firstValueFrom(
-        this.httpService.post('https://fakestoreapi.com/products', createProductDto),
+        this.httpService.post(url, createProductDto),
       );
       return response.data;
     } catch (error) {
@@ -53,7 +55,7 @@ export class ClothingProductsService {
 
     try {
       const response = await firstValueFrom(
-        this.httpService.put(`https://fakestoreapi.com/products/${productId}`, updateProductDto),
+        this.httpService.put(`${url}/${productId}`, updateProductDto),
       );
       return response.data;
     } catch (error) {
@@ -68,7 +70,7 @@ export class ClothingProductsService {
 
     try {
       const response = await firstValueFrom(
-        this.httpService.delete(`https://fakestoreapi.com/products/${productId}`),
+        this.httpService.delete(`${url}/${productId}`),
       );
       return response.data;
     } catch (error) {

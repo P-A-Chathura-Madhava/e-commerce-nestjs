@@ -1,11 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-// import { APP_GUARD } from '@nestjs/core';
-// import { RolesGuard } from './auth/roles.guard';
-import { JWTModule } from './auth/resolve/JWT.module';
 import { ClothingProductsModule } from './clothing-products/clothing-products.module';
 import { OurProductsModule } from './our-products/our-products.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -18,9 +13,13 @@ import { CouponsModule } from './coupons/coupons.module';
 import { EnquiriesModule } from './enquiries/enquiries.module';
 import { ProductCategoryModule } from './product-category/product-category.module';
 import { BlogsModule } from './blogs/blogs.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    UsersModule,
+    AuthModule,
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -36,9 +35,6 @@ import { BlogsModule } from './blogs/blogs.module';
         synchronize: true,
       })
     }),
-    AuthModule,
-    UsersModule,
-    JWTModule,
     ClothingProductsModule,
     OurProductsModule,
     BrandsModule,
@@ -52,10 +48,6 @@ import { BlogsModule } from './blogs/blogs.module';
   controllers: [AppController],
   providers: [
     AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
   ],
 })
 export class AppModule {}

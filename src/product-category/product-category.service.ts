@@ -21,9 +21,8 @@ export class ProductCategoryService {
         const productCategory = await this.getAProductCategory(id);
         if (!productCategory) {
           throw new NotFoundException();
-        }
-        Object.assign(productCategory, updateProductCategoryDto);        
-        return await this.productCategoryRepository.save(productCategory);
+        }   
+        return await this.productCategoryRepository.update(productCategory, updateProductCategoryDto);
     }
 
     async getAllProductCategories() {

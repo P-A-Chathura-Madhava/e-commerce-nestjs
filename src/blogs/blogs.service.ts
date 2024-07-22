@@ -21,9 +21,8 @@ export class BlogsService {
         const blog = await this.getABlog(id);
         if (!blog) {
           throw new NotFoundException();
-        }
-        Object.assign(blog, updateBlogDto);        
-        return await this.blogRepository.save(blog);
+        }  
+        return await this.blogRepository.update(blog, updateBlogDto);
     }
 
     async getAllBlogs() {

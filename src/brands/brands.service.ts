@@ -22,9 +22,8 @@ export class BrandsService {
         const brand = await this.getABrand(id);
         if (!brand) {
           throw new NotFoundException();
-        }
-        Object.assign(brand, updateBrandDto);        
-        return await this.brandRepository.save(brand);
+        }      
+        return await this.brandRepository.update(brand, updateBrandDto);
     }
 
     async getAllBrands() {

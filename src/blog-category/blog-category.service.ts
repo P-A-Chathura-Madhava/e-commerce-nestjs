@@ -23,7 +23,7 @@ export class BlogCategoryService {
           throw new NotFoundException();
         }
         Object.assign(blogCategory, updateBlogCategoryDto);        
-        return await this.blogCategoryRepository.save(blogCategory);
+        return await this.blogCategoryRepository.update(blogCategory, updateBlogCategoryDto);
     }
 
     async getAllBlogCategories() {

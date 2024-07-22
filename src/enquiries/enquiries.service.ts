@@ -21,9 +21,8 @@ export class EnquiriesService {
         const enquiry = await this.getAnEnquiry(id);
         if (!enquiry) {
           throw new NotFoundException();
-        }
-        Object.assign(enquiry, updateEnquiryDto);        
-        return await this.enquiryRepository.save(enquiry);
+        }      
+        return await this.enquiryRepository.update(enquiry, updateEnquiryDto);
     }
 
     async getAllEnquiries() {
