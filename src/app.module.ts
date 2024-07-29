@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ClothingProductsModule } from './clothing-products/clothing-products.module';
@@ -15,12 +15,18 @@ import { ProductCategoryModule } from './product-category/product-category.modul
 import { BlogsModule } from './blogs/blogs.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { PrismaModule } from './prisma/prisma.module';
+import { RequestIdMiddleware } from './middlewares/request-id.middleware';
+import { TenantDatasourceMiddleware } from './middlewares/tenant-datasource.middleware';
 
 @Module({
   imports: [
     UsersModule,
     AuthModule,
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true
+    }),
+    PrismaModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -50,4 +56,9 @@ import { AuthModule } from './auth/auth.module';
     AppService,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestIdMiddleware).forRoutes("*");
+    consumer.apply(TenantDatasourceMiddleware).forRoutes("*");
+  }
+}
