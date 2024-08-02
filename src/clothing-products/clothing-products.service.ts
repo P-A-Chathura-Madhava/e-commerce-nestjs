@@ -13,9 +13,7 @@ export class ClothingProductsService {
   // Get All Products
   async getAllProducts() {
     try {
-      const response = await firstValueFrom(
-        this.httpService.get(url),
-      );
+      const response = await firstValueFrom(this.httpService.get(url));
       return response.data;
     } catch (error) {
       throw new BadRequestException();

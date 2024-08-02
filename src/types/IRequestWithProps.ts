@@ -1,11 +1,11 @@
-import { Request } from "express";
+import { Request } from 'express';
 
 export interface IRequestWithProps extends Request {
-    auth?: any;
-    user?: any;
-    apiKey?: string;
-    tenant?: {
-        tenantCode?: string;
-        datasourceUrl?: string;
-    }
+  auth?: any;
+  user?: any;
+  apiKey?: string;
+  tenant?: {
+    tenantCode?: string;
+    datasourceUrl?: string;
+  };
 }

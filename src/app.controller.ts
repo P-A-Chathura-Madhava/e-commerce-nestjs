@@ -1,38 +1,53 @@
-import { Controller, Get, Request, Post, UseGuards, Inject } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Request,
+  Post,
+  UseGuards,
+  Inject,
+} from '@nestjs/common';
 import { AuthService } from './auth/auth.service';
 import { LocalAuthGuard } from './auth/local-auth.guard';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RolesGuard } from './users/roles.guard';
 import { Roles } from './users/roles.decorator';
 import { PublicPrismaService } from './prisma/public-prisma.service';
-import { TENANT_PRISMA_SERVICE, TenantPrismaService } from './prisma/tenant-prisma.service';
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import {
+  TENANT_PRISMA_SERVICE,
+  TenantPrismaService,
+} from './prisma/tenant-prisma.service';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
-@ApiTags("Auth")
+@ApiTags('Auth')
 @Controller()
 export class AppController {
   constructor(
     private readonly authService: AuthService,
     private readonly prisma: PublicPrismaService,
     @Inject(TENANT_PRISMA_SERVICE)
-    private readonly tenantPrisma: TenantPrismaService
+    private readonly tenantPrisma: TenantPrismaService,
   ) {}
 
-  @Get("/alltenants")
+  @Get('/alltenants')
   async getAllTenants() {
     const tenant = await this.prisma.tenant.findMany();
-    return {tenant};
+    return { tenant };
   }
 
   @ApiOkResponse()
-  @Get("/users")
+  @Get('/users')
   async getAllUsers() {
     const users = await this.prisma.tenant.findMany();
-    return {users};
+    return { users };
   }
 
-  @ApiCreatedResponse({description: "User Logged In"})
-  @ApiBadRequestResponse({description: "Login Failed"})
+  @ApiCreatedResponse({ description: 'User Logged In' })
+  @ApiBadRequestResponse({ description: 'Login Failed' })
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
@@ -40,7 +55,7 @@ export class AppController {
   }
 
   @ApiOkResponse()
-  @ApiBadRequestResponse({description: "Profile Not Found"})
+  @ApiBadRequestResponse({ description: 'Profile Not Found' })
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {

@@ -24,7 +24,7 @@ import { TenantDatasourceMiddleware } from './middlewares/tenant-datasource.midd
     UsersModule,
     AuthModule,
     ConfigModule.forRoot({
-      isGlobal: true
+      isGlobal: true,
     }),
     PrismaModule,
     TypeOrmModule.forRootAsync({
@@ -39,7 +39,7 @@ import { TenantDatasourceMiddleware } from './middlewares/tenant-datasource.midd
         database: configService.get('DB_NAME'),
         entities: [join(process.cwd(), 'dist/**/*.entity.js')],
         synchronize: true,
-      })
+      }),
     }),
     ClothingProductsModule,
     OurProductsModule,
@@ -52,13 +52,11 @@ import { TenantDatasourceMiddleware } from './middlewares/tenant-datasource.midd
     BlogsModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-  ],
+  providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestIdMiddleware).forRoutes("*");
-    consumer.apply(TenantDatasourceMiddleware).forRoutes("*");
+    consumer.apply(RequestIdMiddleware).forRoutes('*');
+    consumer.apply(TenantDatasourceMiddleware).forRoutes('*');
   }
 }
