@@ -19,3 +19,8 @@ model User {
   metadata     Json?
   tenantId     String
 }
+
+model BlogCategory {
+  id    Int     @default(autoincrement()) @id
+  title String
+}

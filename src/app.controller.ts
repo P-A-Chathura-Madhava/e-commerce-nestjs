@@ -6,7 +6,9 @@ import { RolesGuard } from './users/roles.guard';
 import { Roles } from './users/roles.decorator';
 import { PublicPrismaService } from './prisma/public-prisma.service';
 import { TENANT_PRISMA_SERVICE, TenantPrismaService } from './prisma/tenant-prisma.service';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 
+@ApiTags("Auth")
 @Controller()
 export class AppController {
   constructor(
@@ -22,18 +24,23 @@ export class AppController {
     return {tenant};
   }
 
+  @ApiOkResponse()
   @Get("/users")
   async getAllUsers() {
     const users = await this.prisma.tenant.findMany();
     return {users};
   }
 
+  @ApiCreatedResponse({description: "User Logged In"})
+  @ApiBadRequestResponse({description: "Login Failed"})
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
     return this.authService.login(req.user);
   }
 
+  @ApiOkResponse()
+  @ApiBadRequestResponse({description: "Profile Not Found"})
   @UseGuards(JwtAuthGuard)
   @Get('profile')
   getProfile(@Request() req) {
