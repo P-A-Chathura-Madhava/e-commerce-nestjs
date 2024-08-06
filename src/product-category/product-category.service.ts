@@ -4,6 +4,7 @@ import { ProductCategory } from './entities/product-category.entity';
 import { Repository } from 'typeorm';
 import { CreateProductCategoryDto } from './dto/create-product-category.dto';
 import { UpdateProductCategoryDto } from './dto/update-product-category.dto';
+import { ProductCategoryNotFound } from 'src/exceptions/product-category-notfound.exception';
 
 @Injectable()
 export class ProductCategoryService {
@@ -25,7 +26,7 @@ export class ProductCategoryService {
   ) {
     const productCategory = await this.getAProductCategory(id);
     if (!productCategory) {
-      throw new NotFoundException();
+      throw new ProductCategoryNotFound();
     }
     return await this.productCategoryRepository.update(
       productCategory,
@@ -38,13 +39,17 @@ export class ProductCategoryService {
   }
 
   async getAProductCategory(id: number) {
-    return await this.productCategoryRepository.findOne({ where: { id } });
+    try {
+      return await this.productCategoryRepository.findOne({ where: { id } });      
+    } catch (error) {
+      throw new ProductCategoryNotFound();
+    }
   }
 
   async deleteAProductCategory(id: number) {
     const productCategory = await this.getAProductCategory(id);
     if (!productCategory) {
-      throw new NotFoundException();
+      throw new ProductCategoryNotFound();
     }
     return await this.productCategoryRepository.remove(productCategory);
   }

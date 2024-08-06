@@ -3,6 +3,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { ProductNotFound } from 'src/exceptions/product-notfound.exception';
 
 const url = 'https://fakestoreapi.com/products';
 
@@ -28,7 +29,7 @@ export class ClothingProductsService {
       );
       return response.data;
     } catch (error) {
-      throw new BadRequestException();
+      throw new ProductNotFound();
     }
   }
 
@@ -57,7 +58,7 @@ export class ClothingProductsService {
       );
       return response.data;
     } catch (error) {
-      throw new BadRequestException();
+      throw new ProductNotFound();
     }
   }
 
@@ -72,7 +73,7 @@ export class ClothingProductsService {
       );
       return response.data;
     } catch (error) {
-      throw new BadRequestException();
+      throw new ProductNotFound();
     }
   }
 }

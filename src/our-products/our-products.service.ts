@@ -4,6 +4,7 @@ import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { CreateOurProductDto } from './dto/create-our-product.dto';
 import { UpdateOurProductDto } from './dto/update-our-product.dto';
+import { ProductNotFound } from 'src/exceptions/product-notfound.exception';
 
 @Injectable()
 export class OurProductsService {
@@ -23,13 +24,17 @@ export class OurProductsService {
   }
 
   async getAProduct(id: number) {
-    return await this.productRepository.findOne({ where: { id } });
+    try {
+      return await this.productRepository.findOne({ where: { id } });      
+    } catch (error) {
+      throw new ProductNotFound();
+    }
   }
 
   async updateAProduct(id: number, updateOurProductDto: UpdateOurProductDto) {
     const product = await this.getAProduct(id);
     if (!product) {
-      throw new NotFoundException();
+      throw new ProductNotFound();
     }
     return await this.productRepository.update(product, updateOurProductDto);
   }
@@ -37,7 +42,7 @@ export class OurProductsService {
   async deleteAProduct(id: number) {
     const product = await this.getAProduct(id);
     if (!product) {
-      throw new NotFoundException();
+      throw new ProductNotFound();
     }
     return await this.productRepository.remove(product);
   }

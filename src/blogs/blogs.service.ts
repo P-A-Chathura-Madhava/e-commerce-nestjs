@@ -4,6 +4,7 @@ import { Blog } from './entities/blog.entity';
 import { Repository } from 'typeorm';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
+import { BlogNotFound } from 'src/exceptions/blog-notfound.exception';
 
 @Injectable()
 export class BlogsService {
@@ -20,7 +21,7 @@ export class BlogsService {
   async updateABlog(id: number, updateBlogDto: UpdateBlogDto) {
     const blog = await this.getABlog(id);
     if (!blog) {
-      throw new NotFoundException();
+      throw new BlogNotFound();
     }
     return await this.blogRepository.update(blog, updateBlogDto);
   }
@@ -30,13 +31,17 @@ export class BlogsService {
   }
 
   async getABlog(id: number) {
-    return await this.blogRepository.findOne({ where: { id } });
+    try {
+      return await this.blogRepository.findOne({ where: { id } });      
+    } catch (error) {
+      throw new BlogNotFound();
+    }
   }
 
   async deleteABlog(id: number) {
     const blog = await this.getABlog(id);
     if (!blog) {
-      throw new NotFoundException();
+      throw new BlogNotFound();
     }
     return await this.blogRepository.remove(blog);
   }

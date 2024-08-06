@@ -4,6 +4,7 @@ import { Brand } from './entities/brand.entity';
 import { Repository } from 'typeorm';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { BrandNotFound } from 'src/exceptions/brand-notfound.exception';
 
 @Injectable()
 export class BrandsService {
@@ -21,7 +22,7 @@ export class BrandsService {
   async updateABrand(id: number, updateBrandDto: UpdateBrandDto) {
     const brand = await this.getABrand(id);
     if (!brand) {
-      throw new NotFoundException();
+      throw new BrandNotFound();
     }
     return await this.brandRepository.update(brand, updateBrandDto);
   }
@@ -31,13 +32,17 @@ export class BrandsService {
   }
 
   async getABrand(id: number) {
-    return await this.brandRepository.findOne({ where: { id } });
+    try {
+      return await this.brandRepository.findOne({ where: { id } });      
+    } catch (error) {
+      throw new BrandNotFound();
+    }
   }
 
   async deleteABrand(id: number) {
     const brand = await this.getABrand(id);
     if (!brand) {
-      throw new NotFoundException();
+      throw new BrandNotFound();
     }
     return await this.brandRepository.remove(brand);
   }

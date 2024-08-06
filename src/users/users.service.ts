@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { UserNotFound } from 'src/exceptions/user-notfound.exception';
 
 @Injectable()
 export class UsersService {
@@ -22,13 +23,17 @@ export class UsersService {
   }
 
   async findOne(username: string) {
-    return await this.usersRepository.findOne({ where: { username } });
+    try {
+      return await this.usersRepository.findOne({ where: { username } });      
+    } catch (error) {
+      throw new UserNotFound();
+    }
   }
 
   async update(username: string, updateUserDto: UpdateUserDto) {
     const user = await this.findOne(username);
     if (!user) {
-      throw new NotFoundException();
+      throw new UserNotFound();
     }
     return await this.usersRepository.update(user, updateUserDto);
   }
@@ -36,7 +41,7 @@ export class UsersService {
   async remove(username: string) {
     const user = await this.findOne(username);
     if (!user) {
-      throw new NotFoundException();
+      throw new UserNotFound();
     }
     return await this.usersRepository.remove(user);
   }

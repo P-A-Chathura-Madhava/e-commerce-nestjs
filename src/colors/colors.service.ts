@@ -4,6 +4,7 @@ import { Color } from './entities/color.entity';
 import { Repository } from 'typeorm';
 import { CreateColorDto } from './dto/create-color.dto';
 import { UpdateColorDto } from './dto/update-color.dto';
+import { ColorNotFound } from 'src/exceptions/color-notfound.exception';
 
 @Injectable()
 export class ColorsService {
@@ -20,7 +21,7 @@ export class ColorsService {
   async updateAColor(id: number, updateColorDto: UpdateColorDto) {
     const color = await this.getAColor(id);
     if (!color) {
-      throw new NotFoundException();
+      throw new ColorNotFound();
     }
     return await this.colorRepository.update(color, updateColorDto);
   }
@@ -30,13 +31,17 @@ export class ColorsService {
   }
 
   async getAColor(id: number) {
-    return await this.colorRepository.findOne({ where: { id } });
+    try {
+      return await this.colorRepository.findOne({ where: { id } });      
+    } catch (error) {
+      throw new ColorNotFound();
+    }
   }
 
   async deleteAColor(id: number) {
     const color = await this.getAColor(id);
     if (!color) {
-      throw new NotFoundException();
+      throw new ColorNotFound();
     }
     return await this.colorRepository.remove(color);
   }

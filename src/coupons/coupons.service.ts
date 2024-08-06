@@ -4,6 +4,7 @@ import { Coupon } from './entities/coupon.entity';
 import { Repository } from 'typeorm';
 import { CreateCouponDto } from './dto/create-coupon.dto';
 import { UpdateCouponDto } from './dto/update-coupon.dto';
+import { CouponNotFound } from 'src/exceptions/coupon-notfound.exception';
 
 @Injectable()
 export class CouponsService {
@@ -20,7 +21,7 @@ export class CouponsService {
   async updateACoupon(id: number, updateCouponDto: UpdateCouponDto) {
     const coupon = await this.getACoupon(id);
     if (!coupon) {
-      throw new NotFoundException();
+      throw new CouponNotFound();
     }
     return await this.couponRepository.update(coupon, updateCouponDto);
   }
@@ -30,13 +31,17 @@ export class CouponsService {
   }
 
   async getACoupon(id: number) {
-    return await this.couponRepository.findOne({ where: { id } });
+    try {
+      return await this.couponRepository.findOne({ where: { id } });      
+    } catch (error) {
+      throw new CouponNotFound();
+    }
   }
 
   async deleteACoupon(id: number) {
     const coupon = await this.getACoupon(id);
     if (!coupon) {
-      throw new NotFoundException();
+      throw new CouponNotFound();
     }
     return await this.couponRepository.remove(coupon);
   }

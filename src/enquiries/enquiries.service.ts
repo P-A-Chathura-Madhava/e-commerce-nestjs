@@ -4,6 +4,7 @@ import { Enquiry } from './entities/enquiry.entity';
 import { Repository } from 'typeorm';
 import { CreateEnquiryDto } from './dto/create-enquiry.dto';
 import { UpdateEnquiryDto } from './dto/update-enquiry.dto';
+import { EnquiryNotFound } from 'src/exceptions/enquiry-notfound';
 
 @Injectable()
 export class EnquiriesService {
@@ -20,7 +21,7 @@ export class EnquiriesService {
   async updateAnEnquiry(id: number, updateEnquiryDto: UpdateEnquiryDto) {
     const enquiry = await this.getAnEnquiry(id);
     if (!enquiry) {
-      throw new NotFoundException();
+      throw new EnquiryNotFound();
     }
     return await this.enquiryRepository.update(enquiry, updateEnquiryDto);
   }
@@ -30,13 +31,17 @@ export class EnquiriesService {
   }
 
   async getAnEnquiry(id: number) {
-    return await this.enquiryRepository.findOne({ where: { id } });
+    try {
+      return await this.enquiryRepository.findOne({ where: { id } });      
+    } catch (error) {
+      throw new EnquiryNotFound();
+    }
   }
 
   async deleteAnEnquiry(id: number) {
     const enquiry = await this.getAnEnquiry(id);
     if (!enquiry) {
-      throw new NotFoundException();
+      throw new EnquiryNotFound();
     }
     return await this.enquiryRepository.remove(enquiry);
   }
