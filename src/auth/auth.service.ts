@@ -16,8 +16,7 @@ export class AuthService {
     if (user && user.password === password) {
       // destructure to avoid returning username and password
       const { password, username, ...rest } = user;
-    //   console.log(rest);
-      
+      //   console.log(rest);
 
       return rest;
     }
